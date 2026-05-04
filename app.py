@@ -106,26 +106,26 @@ dados = [
     ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento", "87LZA0LL09"],
     ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento", "87LZA0LL09"],
 
-    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Agendado 29/04/2026 16:00-18:00", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-5369", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-7409", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-2381", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-1990", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-3966", "Linha cancelada", "Em andamento", "-"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-0862", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-5369", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-7409", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Vara do Trabalho)", "11 5521-2381", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-1990", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-3966", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Vara do Trabalho)", "11 5521-0862", "Linha cancelada", "Em andamento", "8-7LZ41JGK"],
 
-    ["Jacareí", "(12) 3951-1667", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
-    ["Jacareí", "(12) 3951-3766", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
-    ["Jacareí", "(12) 3961-7650", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LWS83NK"],
+    ["Jacareí (Casa da Advocacia)", "(12) 3951-1667", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
+    ["Jacareí (Casa da Advocacia)", "(12) 3951-3766", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
+    ["Jacareí (Casa da Advocacia)", "(12) 3961-7650", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LWS83NK"],
 
-    ["São Bernardo do Campo", "(11) 4330-3855", "Não funciona", "Em andamento", "8-7LSGGATV"],
+    ["São Bernardo do Campo (Sala do Fórum)", "(11) 4330-3855", "Não funciona", "Em andamento", "8-7LSGGATV"],
 
-    ["Itaquaquecetuba", "(11) 4647-3977", "Linha muda", "Em andamento", "6801189283"],
-    ["Itaquaquecetuba", "(11) 4640-1874", "Linha muda", "Em andamento", "6801189284"],
+    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4647-3977", "Linha muda", "Em andamento", "6801189283"],
+    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4640-1874", "Linha muda", "Em andamento", "6801189284"],
 
-    ["São José do Rio Preto", "-", "Instalação agendada 06/05", "Em andamento", "-"],
-    ["São José do Rio Preto (Trabalhista)", "-", "Instalação agendada 06/05", "Em andamento", "-"],
+    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação agendada 06/05", "Aguardo protocolo", ""],
+    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação agendada 06/05", "Aguardo protocolo", "-"],
 ]
 
 df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status", "Chamado"])
