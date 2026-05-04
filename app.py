@@ -1,37 +1,17 @@
 import streamlit as st
 import pandas as pd
-import base64
-import os
 
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 
-# ================= FUNDO =================
-def get_base64(file):
-    with open(file, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-if os.path.exists("fundo.jpg"):
-    img = get_base64("fundo.jpg")
-
-    st.markdown(f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/jpg;base64,{img}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-        .stApp {
-            background: linear-gradient(135deg, #1f1c2c, #928dab);
-        }
-        </style>
-    """, unsafe_allow_html=True)
+# ================= FUNDO (SEM IMAGEM) =================
+st.markdown("""
+    <style>
+    .stApp {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # ================= LOGIN (SECRETS) =================
 try:
