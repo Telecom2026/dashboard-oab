@@ -15,23 +15,18 @@ st.markdown("""
     background: linear-gradient(135deg, #1c2f38, #0f2027);
 }
 
-/* REMOVE ESPAÇOS */
-.block-container {
-    padding-top: 2rem;
-}
-
-/* ESCONDE SIDEBAR NO LOGIN */
+/* REMOVE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* LOGIN CENTRALIZADO */
+/* CONTAINER LOGIN */
 .login-container {
-    max-width: 420px;
+    max-width: 340px;
     margin: 120px auto;
 }
 
 /* TÍTULO */
 .login-title {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
     color: white;
 }
@@ -39,21 +34,20 @@ st.markdown("""
 /* SUBTÍTULO */
 .login-subtitle {
     color: #cbd5e1;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 /* LABELS */
 label {
     color: #e2e8f0 !important;
-    font-weight: 500;
 }
 
-/* INPUTS BRANCOS */
+/* INPUTS */
 div[data-testid="stTextInput"] input {
     background-color: white;
     color: black;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
 }
 
@@ -61,13 +55,12 @@ div[data-testid="stTextInput"] input {
 div.stButton > button {
     background: linear-gradient(90deg, #0A66C2, #004182);
     color: white;
-    border-radius: 10px;
-    height: 48px;
+    border-radius: 8px;
+    height: 42px;
     font-weight: 600;
     border: none;
 }
 
-/* HOVER */
 div.stButton > button:hover {
     opacity: 0.9;
 }
