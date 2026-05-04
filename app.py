@@ -1,8 +1,44 @@
 import streamlit as st
 import pandas as pd
+import base64
 
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
+
+# ================= FUNDO =================
+def get_base64(file):
+    with open(file, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+img = get_base64("fundo.jpg")  # coloque a imagem na mesma pasta
+
+st.markdown(f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{img}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+
+    /* Overlay escuro para melhorar leitura */
+    .block-container {{
+        background-color: rgba(0, 0, 0, 0.65);
+        padding: 2rem;
+        border-radius: 12px;
+    }}
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {{
+        background-color: rgba(0, 0, 0, 0.85);
+    }}
+
+    /* Texto branco */
+    h1, h2, h3, h4, h5, h6, p, div {{
+        color: white !important;
+    }}
+    </style>
+""", unsafe_allow_html=True)
 
 # ================= LOGIN (SECRETS) =================
 try:
