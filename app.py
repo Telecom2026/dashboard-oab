@@ -20,7 +20,7 @@ st.markdown("""
 
 /* CONTAINER LOGIN MENOR */
 .login-container {
-    max-width: 100px;
+    max-width: 10px;
     margin: 40px auto;
 }
 
