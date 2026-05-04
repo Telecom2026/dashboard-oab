@@ -10,46 +10,24 @@ st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 st.markdown("""
 <style>
 
-/* FUNDO */
+/* REMOVE FUNDO */
 .stApp {
-    background: linear-gradient(135deg, #1c2f38, #0f2027);
+    background: none;
 }
 
 /* ESCONDE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* LOGO NO TOPO DIREITO */
-.logo {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-}
-
-.logo img {
-    width: 120px;   /* 🔥 tamanho pequeno tipo logo */
-}
-
 /* TÍTULO */
 .login-title {
     font-size: 24px;
     font-weight: 700;
-    color: white;
 }
 
 /* SUBTÍTULO */
 .login-subtitle {
-    color: #cbd5e1;
     font-size: 13px;
-    margin-bottom: 15px;
-}
-
-/* LABEL CUSTOM */
-.custom-label {
-    color: white;
-    font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 3px;
-    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 /* INPUT */
@@ -65,17 +43,13 @@ div[data-testid="stTextInput"] input {
 /* FOCO */
 div[data-testid="stTextInput"] input:focus {
     border: 2px solid #0A66C2;
-    box-shadow: 0 0 5px rgba(10,102,194,0.5);
 }
 
 /* BOTÃO */
 div.stButton > button {
-    background: linear-gradient(90deg, #0A66C2, #004182);
-    color: white;
     height: 34px;
     font-size: 14px;
     border-radius: 6px;
-    border: none;
     font-weight: 600;
 }
 
@@ -89,24 +63,23 @@ SENHA = os.getenv("SENHA")
 
 def login():
 
-    # LOGO
-    if os.path.exists("logo.png"):
-        st.markdown('<div class="logo">', unsafe_allow_html=True)
-        st.image("logo.png")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # LOGO NO TOPO DIREITO
+    top1, top2 = st.columns([6,1])
+    with top2:
+        if os.path.exists("logo.png"):
+            st.image("logo.png", width=100)
 
-    # CENTRALIZA LOGIN
+    # LOGIN CENTRAL
     col1, col2, col3 = st.columns([2,1,2])
 
     with col2:
         st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
         st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
 
-        # 🔥 CAMPOS DESTACADOS
-        st.markdown('<div class="custom-label">👤 Usuário</div>', unsafe_allow_html=True)
+        st.markdown("**👤 Usuário**")
         usuario = st.text_input("", key="user")
 
-        st.markdown('<div class="custom-label">🔒 Senha</div>', unsafe_allow_html=True)
+        st.markdown("**🔒 Senha**")
         senha = st.text_input("", type="password", key="pass")
 
         if st.button("Entrar", use_container_width=True):
@@ -203,10 +176,12 @@ st.subheader("📋 Detalhamento dos Chamados")
 st.dataframe(df_filtrado, use_container_width=True)
 
 # ================= DOWNLOAD =================
-st.download_button("📥 Exportar CSV",
-                   df_filtrado.to_csv(index=False),
-                   "chamados.csv",
-                   "text/csv")
+st.download_button(
+    "📥 Exportar CSV",
+    df_filtrado.to_csv(index=False),
+    "chamados.csv",
+    "text/csv"
+)
 
 # ================= INFO =================
 st.info("ℹ️ Todos os chamados estão em andamento.")
