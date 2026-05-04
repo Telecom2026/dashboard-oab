@@ -6,58 +6,81 @@ from dotenv import load_dotenv
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 
-# ================= FUNDO ESCURO =================
+# ================= ESTILO GLOBAL =================
 st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(135deg, #1c2f38, #0f2027);
-    }
+<style>
 
-    [data-testid="stSidebar"] {display: none;}
+/* FUNDO */
+.stApp {
+    background: linear-gradient(135deg, #1c2f38, #0f2027);
+}
 
-    .login-container {
-        max-width: 380px;
-        margin-top: 120px;
-        padding: 2rem;
-        background-color: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    }
+/* REMOVE ESPAÇO BRANCO */
+.block-container {
+    padding-top: 2rem;
+}
 
-    .login-title {
-        font-size: 28px;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
+/* ESCONDE SIDEBAR NO LOGIN */
+[data-testid="stSidebar"] {display: none;}
 
-    .login-subtitle {
-        color: #666;
-        margin-bottom: 20px;
-    }
+/* CONTAINER LOGIN */
+.login-container {
+    max-width: 400px;
+    margin-top: 120px;
+    padding: 1rem;
+}
 
-    div[data-testid="stTextInput"] input {
-        border-radius: 8px;
-        padding: 10px;
-    }
+/* TÍTULO */
+.login-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
 
-    div.stButton > button {
-        background-color: #0A66C2;
-        color: white;
-        border-radius: 8px;
-        height: 45px;
-        font-weight: 600;
-        border: none;
-    }
+/* SUBTÍTULO */
+.login-subtitle {
+    color: #cbd5e1;
+    margin-bottom: 25px;
+}
 
-    div.stButton > button:hover {
-        background-color: #004182;
-    }
+/* LABELS */
+label {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+}
 
-    .image-container img {
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    </style>
+/* INPUTS */
+div[data-testid="stTextInput"] input {
+    background-color: #243b47;
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #2c5364;
+}
+
+/* BOTÃO */
+div.stButton > button {
+    background: linear-gradient(90deg, #0A66C2, #004182);
+    color: white;
+    border-radius: 10px;
+    height: 48px;
+    font-weight: 600;
+    border: none;
+}
+
+/* HOVER */
+div.stButton > button:hover {
+    opacity: 0.9;
+}
+
+/* IMAGEM AJUSTADA */
+.image-container img {
+    border-radius: 20px;
+    filter: brightness(0.6);
+}
+
+</style>
 """, unsafe_allow_html=True)
 
 # ================= LOGIN SEGURO =================
@@ -70,7 +93,6 @@ SENHA = os.getenv("SENHA")
 def login():
     col1, col2 = st.columns([1, 1.2])
 
-    # LOGIN (ESQUERDA)
     with col1:
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
@@ -89,7 +111,6 @@ def login():
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # IMAGEM (DIREITA)
     with col2:
         if os.path.exists("fundo.jpg"):
             st.markdown('<div class="image-container">', unsafe_allow_html=True)
