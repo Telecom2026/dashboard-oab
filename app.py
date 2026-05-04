@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import base64
+import os
 
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
@@ -10,35 +11,28 @@ def get_base64(file):
     with open(file, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-img = get_base64("fundo.jpg")  # coloque a imagem na mesma pasta
+if os.path.exists("fundo.jpg"):
+    img = get_base64("fundo.jpg")
 
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url("data:image/jpg;base64,{img}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }}
-
-    /* Overlay escuro para melhorar leitura */
-    .block-container {{
-        background-color: rgba(0, 0, 0, 0.65);
-        padding: 2rem;
-        border-radius: 12px;
-    }}
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {{
-        background-color: rgba(0, 0, 0, 0.85);
-    }}
-
-    /* Texto branco */
-    h1, h2, h3, h4, h5, h6, p, div {{
-        color: white !important;
-    }}
-    </style>
-""", unsafe_allow_html=True)
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{img}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+else:
+    # fallback elegante
+    st.markdown("""
+        <style>
+        .stApp {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
 # ================= LOGIN (SECRETS) =================
 try:
@@ -48,8 +42,38 @@ except:
     st.error("⚠️ Credenciais não configuradas em Secrets")
     st.stop()
 
+# ================= LOGIN UI =================
 def login():
-    st.title("🔐 Acesso ao Dashboard")
+    # esconder sidebar
+    st.markdown("""
+        <style>
+        [data-testid="stSidebar"] {display: none;}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # caixa central
+    st.markdown("""
+        <style>
+        .login-box {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 120px;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .login-box input {
+            text-align: center;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
+
+    st.markdown("## 🔐 Acesso ao Dashboard")
 
     usuario = st.text_input("Usuário")
     senha = st.text_input("Senha", type="password")
@@ -57,17 +81,43 @@ def login():
     if st.button("Entrar"):
         if usuario == USUARIO and senha == SENHA:
             st.session_state["logado"] = True
+            st.rerun()
         else:
             st.error("Usuário ou senha inválidos")
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ================= CONTROLE DE SESSÃO =================
 if "logado" not in st.session_state:
+    st.session_state["logado"] = False
+
+if not st.session_state["logado"]:
     login()
     st.stop()
 
-# ================= BOTÃO SAIR =================
+# ================= SIDEBAR (após login) =================
 if st.sidebar.button("🚪 Sair"):
     st.session_state["logado"] = False
     st.rerun()
+
+# ================= ESTILO DASHBOARD =================
+st.markdown("""
+    <style>
+    .block-container {
+        background-color: rgba(0, 0, 0, 0.65);
+        padding: 2rem;
+        border-radius: 12px;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    h1, h2, h3, h4, h5, h6, p, div {
+        color: white !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
@@ -104,9 +154,9 @@ df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status"])
 def padronizar_motivo(motivo):
     motivo = motivo.lower()
 
-    if "linha muda" in motivo or "mudo" in motivo or "não funciona" in motivo or "inoperante" in motivo:
+    if "linha muda" in motivo or "não funciona" in motivo:
         return "Falha de comunicação"
-    elif "apenas recebe" in motivo or "só recebe" in motivo:
+    elif "apenas recebe" in motivo:
         return "Recebimento parcial"
     elif "não recebe" in motivo:
         return "Falha de recebimento"
@@ -141,7 +191,6 @@ df_filtrado = df[
 
 # ================= KPIs =================
 col1, col2 = st.columns(2)
-
 col1.metric("📞 Total de Chamados", len(df_filtrado))
 col2.metric("🔧 Em andamento", len(df_filtrado))
 
