@@ -1,16 +1,16 @@
 import streamlit as st
 import pandas as pd
-import os
-from dotenv import load_dotenv
 
-# ================= CONFIG (TEM QUE SER PRIMEIRO) =================
+# ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 
-# ================= LOGIN SEGURO =================
-load_dotenv()
-
-USUARIO = os.getenv("USUARIO")
-SENHA = os.getenv("SENHA")
+# ================= LOGIN (SECRETS) =================
+try:
+    USUARIO = st.secrets["USUARIO"]
+    SENHA = st.secrets["SENHA"]
+except:
+    st.error("⚠️ Credenciais não configuradas em Secrets")
+    st.stop()
 
 def login():
     st.title("🔐 Acesso ao Dashboard")
@@ -27,6 +27,11 @@ def login():
 if "logado" not in st.session_state:
     login()
     st.stop()
+
+# ================= BOTÃO SAIR =================
+if st.sidebar.button("🚪 Sair"):
+    st.session_state["logado"] = False
+    st.rerun()
 
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
@@ -65,19 +70,14 @@ def padronizar_motivo(motivo):
 
     if "linha muda" in motivo or "mudo" in motivo or "não funciona" in motivo or "inoperante" in motivo:
         return "Falha de comunicação"
-
     elif "apenas recebe" in motivo or "só recebe" in motivo:
         return "Recebimento parcial"
-
     elif "não recebe" in motivo:
         return "Falha de recebimento"
-
     elif "internet" in motivo:
         return "Sem internet"
-
     elif "projeto" in motivo:
         return "Configuração / Projeto"
-
     else:
         return "Outros"
 
