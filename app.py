@@ -40,11 +40,6 @@ div[data-testid="stTextInput"] input {
     border: 1px solid #ccc;
 }
 
-/* FOCO */
-div[data-testid="stTextInput"] input:focus {
-    border: 2px solid #0A66C2;
-}
-
 /* BOTÃO */
 div.stButton > button {
     height: 34px;
@@ -108,68 +103,64 @@ st.markdown("Monitoramento de Telefonia e Conectividade")
 
 # ================= DADOS =================
 dados = [
-    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento"],
-    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento"],
+    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento", "87LZA0LL09"],
+    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento", "87LZA0LL09"],
 
-    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha muda", "Em andamento"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Linha muda", "Em andamento"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-5369", "Linha muda", "Em andamento"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-7409", "Não funciona", "Em andamento"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-2381", "Apenas recebe ligações", "Em andamento"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-3966", "Apenas recebe ligações", "Em andamento"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-0862", "Não recebe ligações", "Em andamento"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Agendado 29/04/2026 16:00-18:00", "Em andamento", "8-7LZ41JGK"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-5369", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-7409", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Vara do Trabalho)", "11 5521-2381", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-1990", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5524-3966", "Linha cancelada", "Em andamento", "-"],
+    ["Santo Amaro (Vara do Trabalho)", "11 5521-0862", "Linha cancelada", "Em andamento", "-"],
 
-    ["Jacareí (Casa da Advocacia)", "(12) 3951-1667", "Linha muda", "Em andamento"],
-    ["Jacareí (Casa da Advocacia)", "(12) 3951-3766", "Linha muda", "Em andamento"],
-    ["Jacareí (Casa da Advocacia)", "(12) 3961-7650", "Fora do projeto", "Em andamento"],
+    ["Jacareí", "(12) 3951-1667", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
+    ["Jacareí", "(12) 3951-3766", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
+    ["Jacareí", "(12) 3961-7650", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LWS83NK"],
 
-    ["São Bernardo do Campo (Sala do Fórum)", "(11) 4330-3855", "Não funciona", "Em andamento"],
+    ["São Bernardo do Campo", "(11) 4330-3855", "Não funciona", "Em andamento", "8-7LSGGATV"],
 
-    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4647-3977", "Linha muda", "Em andamento"],
-    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4640-1874", "Linha muda", "Em andamento"],
+    ["Itaquaquecetuba", "(11) 4647-3977", "Linha muda", "Em andamento", "6801189283"],
+    ["Itaquaquecetuba", "(11) 4640-1874", "Linha muda", "Em andamento", "6801189284"],
 
-    ["São José do Rio Preto (Sala do Fórum)", "-", "Sem internet", "Em andamento"],
+    ["São José do Rio Preto", "-", "Instalação agendada 06/05", "Em andamento", "-"],
+    ["São José do Rio Preto (Trabalhista)", "-", "Instalação agendada 06/05", "Em andamento", "-"],
 ]
 
-df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status"])
-
-# ================= CATEGORIA =================
-def padronizar_motivo(motivo):
-    motivo = motivo.lower()
-
-    if "linha muda" in motivo or "não funciona" in motivo:
-        return "Falha de comunicação"
-    elif "apenas recebe" in motivo:
-        return "Recebimento parcial"
-    elif "não recebe" in motivo:
-        return "Falha de recebimento"
-    elif "internet" in motivo:
-        return "Sem internet"
-    elif "projeto" in motivo:
-        return "Configuração / Projeto"
-    else:
-        return "Outros"
-
-df["Categoria"] = df["Motivo"].apply(padronizar_motivo)
+df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status", "Chamado"])
 
 # ================= FILTROS =================
 st.sidebar.header("🔎 Filtros")
 
-local = st.sidebar.multiselect("Local", df["Local"].unique(), default=df["Local"].unique())
-categoria = st.sidebar.multiselect("Categoria", df["Categoria"].unique(), default=df["Categoria"].unique())
+local = st.sidebar.multiselect(
+    "Local",
+    df["Local"].unique(),
+    default=df["Local"].unique()
+)
 
-df_filtrado = df[(df["Local"].isin(local)) & (df["Categoria"].isin(categoria))]
+chamado = st.sidebar.multiselect(
+    "Número do Chamado",
+    df["Chamado"].unique(),
+    default=df["Chamado"].unique()
+)
+
+df_filtrado = df[
+    (df["Local"].isin(local)) &
+    (df["Chamado"].isin(chamado))
+]
 
 # ================= KPIs =================
 col1, col2 = st.columns(2)
+
 col1.metric("📞 Total de Chamados", len(df_filtrado))
 col2.metric("🔧 Em andamento", len(df_filtrado))
 
 st.divider()
 
 # ================= GRÁFICO =================
-st.subheader("📊 Chamados por Categoria")
-st.bar_chart(df_filtrado["Categoria"].value_counts())
+st.subheader("📊 Chamados por Local")
+st.bar_chart(df_filtrado["Local"].value_counts())
 
 # ================= TABELA =================
 st.subheader("📋 Detalhamento dos Chamados")
