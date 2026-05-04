@@ -6,6 +6,60 @@ from dotenv import load_dotenv
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 
+# ================= FUNDO ESCURO =================
+st.markdown("""
+    <style>
+    .stApp {
+        background: linear-gradient(135deg, #1c2f38, #0f2027);
+    }
+
+    [data-testid="stSidebar"] {display: none;}
+
+    .login-container {
+        max-width: 380px;
+        margin-top: 120px;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .login-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    div[data-testid="stTextInput"] input {
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    div.stButton > button {
+        background-color: #0A66C2;
+        color: white;
+        border-radius: 8px;
+        height: 45px;
+        font-weight: 600;
+        border: none;
+    }
+
+    div.stButton > button:hover {
+        background-color: #004182;
+    }
+
+    .image-container img {
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # ================= LOGIN SEGURO =================
 load_dotenv()
 
@@ -14,59 +68,9 @@ SENHA = os.getenv("SENHA")
 
 # ================= LOGIN =================
 def login():
-    # esconder sidebar
-    st.markdown("""
-        <style>
-        [data-testid="stSidebar"] {display: none;}
-
-        .login-container {
-            max-width: 380px;
-            margin-top: 120px;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .login-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .login-subtitle {
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        div[data-testid="stTextInput"] input {
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        div.stButton > button {
-            background-color: #0A66C2;
-            color: white;
-            border-radius: 8px;
-            height: 45px;
-            font-weight: 600;
-            border: none;
-        }
-
-        div.stButton > button:hover {
-            background-color: #004182;
-        }
-
-        .image-container img {
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
     col1, col2 = st.columns([1, 1.2])
 
-    # 🔹 LOGIN (ESQUERDA)
+    # LOGIN (ESQUERDA)
     with col1:
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
@@ -85,7 +89,7 @@ def login():
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # 🔹 IMAGEM (DIREITA)
+    # IMAGEM (DIREITA)
     with col2:
         if os.path.exists("fundo.jpg"):
             st.markdown('<div class="image-container">', unsafe_allow_html=True)
@@ -100,14 +104,19 @@ if not st.session_state["logado"]:
     login()
     st.stop()
 
+# ================= SIDEBAR =================
+if st.sidebar.button("🚪 Sair"):
+    st.session_state["logado"] = False
+    st.rerun()
+
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
 st.markdown("Monitoramento de Telefonia e Conectividade")
 
 # ================= DADOS =================
 dados = [
-    ["Capivari (Casa da Advocacia)", "(19) 3879-1317", "Linha muda", "Em andamento"],
-    ["Capivari (Sala do Fórum)", "(19) 3492-2215", "Linha muda", "Em andamento"],
+    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento"],
+    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento"],
 
     ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha muda", "Em andamento"],
     ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Linha muda", "Em andamento"],
@@ -135,9 +144,9 @@ df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status"])
 def padronizar_motivo(motivo):
     motivo = motivo.lower()
 
-    if "linha muda" in motivo or "mudo" in motivo or "não funciona" in motivo or "inoperante" in motivo:
+    if "linha muda" in motivo or "mudo" in motivo or "não funciona" in motivo:
         return "Falha de comunicação"
-    elif "apenas recebe" in motivo or "só recebe" in motivo:
+    elif "apenas recebe" in motivo:
         return "Recebimento parcial"
     elif "não recebe" in motivo:
         return "Falha de recebimento"
