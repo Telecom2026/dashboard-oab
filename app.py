@@ -20,8 +20,8 @@ st.markdown("""
 
 /* CONTAINER LOGIN MENOR */
 .login-container {
-    max-width: 160px;
-    margin: 80px auto;
+    max-width: 100px;
+    margin: 40px auto;
 }
 
 /* TÍTULO */
