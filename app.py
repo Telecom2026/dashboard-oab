@@ -15,18 +15,18 @@ st.markdown("""
     background: linear-gradient(135deg, #1c2f38, #0f2027);
 }
 
-/* REMOVE SIDEBAR NO LOGIN */
+/* ESCONDE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* CONTAINER LOGIN */
+/* CONTAINER LOGIN MENOR */
 .login-container {
-    max-width: 340px;
-    margin: 120px auto;
+    max-width: 260px;
+    margin: 80px auto;
 }
 
 /* TÍTULO */
 .login-title {
-    font-size: 30px;
+    font-size: 22px;
     font-weight: 700;
     color: white;
 }
@@ -34,20 +34,24 @@ st.markdown("""
 /* SUBTÍTULO */
 .login-subtitle {
     color: #cbd5e1;
-    margin-bottom: 20px;
+    font-size: 13px;
+    margin-bottom: 12px;
 }
 
 /* LABELS */
 label {
     color: #e2e8f0 !important;
+    font-size: 13px;
 }
 
 /* INPUTS */
 div[data-testid="stTextInput"] input {
     background-color: white;
     color: black;
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 6px;
+    padding: 6px;
+    height: 32px;
+    font-size: 13px;
     border: 1px solid #ccc;
 }
 
@@ -55,14 +59,20 @@ div[data-testid="stTextInput"] input {
 div.stButton > button {
     background: linear-gradient(90deg, #0A66C2, #004182);
     color: white;
-    border-radius: 8px;
-    height: 42px;
-    font-weight: 600;
+    height: 34px;
+    font-size: 14px;
+    border-radius: 6px;
     border: none;
+    font-weight: 600;
 }
 
 div.stButton > button:hover {
     opacity: 0.9;
+}
+
+/* AJUSTE GERAL */
+.block-container {
+    padding-top: 2rem;
 }
 
 </style>
@@ -157,13 +167,26 @@ df["Categoria"] = df["Motivo"].apply(padronizar_motivo)
 # ================= FILTROS =================
 st.sidebar.header("🔎 Filtros")
 
-local = st.sidebar.multiselect("Local", df["Local"].unique(), default=df["Local"].unique())
-categoria = st.sidebar.multiselect("Categoria", df["Categoria"].unique(), default=df["Categoria"].unique())
+local = st.sidebar.multiselect(
+    "Local",
+    df["Local"].unique(),
+    default=df["Local"].unique()
+)
 
-df_filtrado = df[(df["Local"].isin(local)) & (df["Categoria"].isin(categoria))]
+categoria = st.sidebar.multiselect(
+    "Categoria",
+    df["Categoria"].unique(),
+    default=df["Categoria"].unique()
+)
+
+df_filtrado = df[
+    (df["Local"].isin(local)) &
+    (df["Categoria"].isin(categoria))
+]
 
 # ================= KPIs =================
 col1, col2 = st.columns(2)
+
 col1.metric("📞 Total de Chamados", len(df_filtrado))
 col2.metric("🔧 Em andamento", len(df_filtrado))
 
