@@ -25,7 +25,6 @@ if os.path.exists("fundo.jpg"):
         </style>
     """, unsafe_allow_html=True)
 else:
-    # fallback elegante
     st.markdown("""
         <style>
         .stApp {
@@ -42,7 +41,7 @@ except:
     st.error("⚠️ Credenciais não configuradas em Secrets")
     st.stop()
 
-# ================= LOGIN UI =================
+# ================= LOGIN =================
 def login():
     # esconder sidebar
     st.markdown("""
@@ -51,43 +50,43 @@ def login():
         </style>
     """, unsafe_allow_html=True)
 
-    # caixa central
-    st.markdown("""
-        <style>
-        .login-box {
-            max-width: 400px;
-            margin: auto;
-            margin-top: 120px;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.75);
-            border-radius: 12px;
-            text-align: center;
-            color: white;
-        }
+    # layout com login à direita
+    col1, col2 = st.columns([2, 1])
 
-        .login-box input {
-            text-align: center;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+            <style>
+            .login-container {
+                background-color: rgba(0, 0, 0, 0.75);
+                padding: 2rem;
+                border-radius: 12px;
+                margin-top: 120px;
+                color: white;
+            }
 
-    st.markdown('<div class="login-box">', unsafe_allow_html=True)
+            div[data-testid="stTextInput"] input {
+                text-align: center;
+            }
+            </style>
+        """, unsafe_allow_html=True)
 
-    st.markdown("## 🔐 Acesso ao Dashboard")
+        st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    usuario = st.text_input("Usuário")
-    senha = st.text_input("Senha", type="password")
+        st.markdown("## 🔐 Acesso ao Dashboard")
 
-    if st.button("Entrar"):
-        if usuario == USUARIO and senha == SENHA:
-            st.session_state["logado"] = True
-            st.rerun()
-        else:
-            st.error("Usuário ou senha inválidos")
+        usuario = st.text_input("Usuário")
+        senha = st.text_input("Senha", type="password")
 
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button("Entrar", use_container_width=True):
+            if usuario == USUARIO and senha == SENHA:
+                st.session_state["logado"] = True
+                st.rerun()
+            else:
+                st.error("Usuário ou senha inválidos")
 
-# ================= CONTROLE DE SESSÃO =================
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# ================= CONTROLE =================
 if "logado" not in st.session_state:
     st.session_state["logado"] = False
 
@@ -95,12 +94,12 @@ if not st.session_state["logado"]:
     login()
     st.stop()
 
-# ================= SIDEBAR (após login) =================
+# ================= SIDEBAR =================
 if st.sidebar.button("🚪 Sair"):
     st.session_state["logado"] = False
     st.rerun()
 
-# ================= ESTILO DASHBOARD =================
+# ================= ESTILO DASH =================
 st.markdown("""
     <style>
     .block-container {
