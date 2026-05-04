@@ -20,7 +20,7 @@ st.markdown("""
 
 /* CONTAINER LOGIN MENOR */
 .login-container {
-    max-width: 260px;
+    max-width: 160px;
     margin: 80px auto;
 }
 
@@ -120,8 +120,8 @@ st.markdown("Monitoramento de Telefonia e Conectividade")
 
 # ================= DADOS =================
 dados = [
-    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento"],
-    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento"],
+    ["Capivari (Casa da Advocacia)", "(19) 3879-1317", "Linha muda", "Em andamento"],
+    ["Capivari (Sala do Fórum)", "(19) 3492-2215", "Linha muda", "Em andamento"],
 
     ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha muda", "Em andamento"],
     ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Linha muda", "Em andamento"],
