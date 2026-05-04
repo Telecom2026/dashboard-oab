@@ -124,8 +124,8 @@ dados = [
     ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4647-3977", "Linha muda", "Em andamento", "6801189283"],
     ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4640-1874", "Linha muda", "Em andamento", "6801189284"],
 
-    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação agendada 06/05", "Aguardo protocolo", ""],
-    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação agendada 06/05", "Aguardo protocolo", "-"],
+    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", ""],
+    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", "-"],
 ]
 
 df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status", "Chamado"])
