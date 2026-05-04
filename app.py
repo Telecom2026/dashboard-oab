@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # ================= CONFIG =================
 st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
 
-# ================= ESTILO GLOBAL =================
+# ================= ESTILO =================
 st.markdown("""
 <style>
 
@@ -15,7 +15,7 @@ st.markdown("""
     background: linear-gradient(135deg, #1c2f38, #0f2027);
 }
 
-/* REMOVE ESPAÇO BRANCO */
+/* REMOVE ESPAÇOS */
 .block-container {
     padding-top: 2rem;
 }
@@ -23,11 +23,10 @@ st.markdown("""
 /* ESCONDE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* CONTAINER LOGIN */
+/* LOGIN */
 .login-container {
-    max-width: 400px;
+    max-width: 420px;
     margin-top: 120px;
-    padding: 1rem;
 }
 
 /* TÍTULO */
@@ -35,7 +34,6 @@ st.markdown("""
     font-size: 32px;
     font-weight: 700;
     color: white;
-    margin-bottom: 5px;
 }
 
 /* SUBTÍTULO */
@@ -50,13 +48,13 @@ label {
     font-weight: 500;
 }
 
-/* INPUTS */
+/* INPUTS BRANCOS */
 div[data-testid="stTextInput"] input {
-    background-color: #243b47;
-    color: white;
+    background-color: white;
+    color: black;
     border-radius: 10px;
     padding: 12px;
-    border: 1px solid #2c5364;
+    border: 1px solid #ccc;
 }
 
 /* BOTÃO */
@@ -69,13 +67,15 @@ div.stButton > button {
     border: none;
 }
 
-/* HOVER */
-div.stButton > button:hover {
-    opacity: 0.9;
+/* IMAGEM NO TOPO DIREITO */
+.top-image {
+    position: absolute;
+    top: 40px;
+    right: 60px;
 }
 
-/* IMAGEM AJUSTADA */
-.image-container img {
+.top-image img {
+    width: 380px;  /* ~60% menor */
     border-radius: 20px;
     filter: brightness(0.6);
 }
@@ -83,39 +83,35 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ================= LOGIN SEGURO =================
+# ================= LOGIN =================
 load_dotenv()
-
 USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
 
-# ================= LOGIN =================
 def login():
-    col1, col2 = st.columns([1, 1.2])
-
-    with col1:
-        st.markdown('<div class="login-container">', unsafe_allow_html=True)
-
-        st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
-
-        usuario = st.text_input("Usuário")
-        senha = st.text_input("Senha", type="password")
-
-        if st.button("Entrar", use_container_width=True):
-            if usuario == USUARIO and senha == SENHA:
-                st.session_state["logado"] = True
-                st.rerun()
-            else:
-                st.error("Usuário ou senha inválidos")
-
+    # IMAGEM NO TOPO DIREITO
+    if os.path.exists("fundo.jpg"):
+        st.markdown('<div class="top-image">', unsafe_allow_html=True)
+        st.image("fundo.jpg")
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with col2:
-        if os.path.exists("fundo.jpg"):
-            st.markdown('<div class="image-container">', unsafe_allow_html=True)
-            st.image("fundo.jpg", use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+    # LOGIN
+    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+
+    st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
+
+    usuario = st.text_input("Usuário")
+    senha = st.text_input("Senha", type="password")
+
+    if st.button("Entrar", use_container_width=True):
+        if usuario == USUARIO and senha == SENHA:
+            st.session_state["logado"] = True
+            st.rerun()
+        else:
+            st.error("Usuário ou senha inválidos")
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ================= CONTROLE =================
 if "logado" not in st.session_state:
@@ -161,11 +157,11 @@ dados = [
 
 df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status"])
 
-# ================= PADRONIZAÇÃO =================
+# ================= CATEGORIA =================
 def padronizar_motivo(motivo):
     motivo = motivo.lower()
 
-    if "linha muda" in motivo or "mudo" in motivo or "não funciona" in motivo:
+    if "linha muda" in motivo or "não funciona" in motivo:
         return "Falha de comunicação"
     elif "apenas recebe" in motivo:
         return "Recebimento parcial"
@@ -183,22 +179,10 @@ df["Categoria"] = df["Motivo"].apply(padronizar_motivo)
 # ================= FILTROS =================
 st.sidebar.header("🔎 Filtros")
 
-local = st.sidebar.multiselect(
-    "Local",
-    df["Local"].unique(),
-    default=df["Local"].unique()
-)
+local = st.sidebar.multiselect("Local", df["Local"].unique(), default=df["Local"].unique())
+categoria = st.sidebar.multiselect("Categoria", df["Categoria"].unique(), default=df["Categoria"].unique())
 
-categoria = st.sidebar.multiselect(
-    "Categoria",
-    df["Categoria"].unique(),
-    default=df["Categoria"].unique()
-)
-
-df_filtrado = df[
-    (df["Local"].isin(local)) &
-    (df["Categoria"].isin(categoria))
-]
+df_filtrado = df[(df["Local"].isin(local)) & (df["Categoria"].isin(categoria))]
 
 # ================= KPIs =================
 col1, col2 = st.columns(2)
@@ -216,12 +200,10 @@ st.subheader("📋 Detalhamento dos Chamados")
 st.dataframe(df_filtrado, use_container_width=True)
 
 # ================= DOWNLOAD =================
-st.download_button(
-    "📥 Exportar CSV",
-    df_filtrado.to_csv(index=False),
-    "chamados.csv",
-    "text/csv"
-)
+st.download_button("📥 Exportar CSV",
+                   df_filtrado.to_csv(index=False),
+                   "chamados.csv",
+                   "text/csv")
 
 # ================= INFO =================
 st.info("ℹ️ Todos os chamados estão em andamento.")
