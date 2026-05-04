@@ -23,10 +23,10 @@ st.markdown("""
 /* ESCONDE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* LOGIN */
+/* LOGIN CENTRALIZADO */
 .login-container {
     max-width: 420px;
-    margin-top: 120px;
+    margin: 120px auto;
 }
 
 /* TÍTULO */
@@ -67,17 +67,9 @@ div.stButton > button {
     border: none;
 }
 
-/* IMAGEM NO TOPO DIREITO */
-.top-image {
-    position: absolute;
-    top: 40px;
-    right: 60px;
-}
-
-.top-image img {
-    width: 380px;  /* ~60% menor */
-    border-radius: 20px;
-    filter: brightness(0.6);
+/* HOVER */
+div.stButton > button:hover {
+    opacity: 0.9;
 }
 
 </style>
@@ -89,13 +81,6 @@ USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
 
 def login():
-    # IMAGEM NO TOPO DIREITO
-    if os.path.exists("fundo.jpg"):
-        st.markdown('<div class="top-image">', unsafe_allow_html=True)
-        st.image("fundo.jpg")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # LOGIN
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
     st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
@@ -200,10 +185,12 @@ st.subheader("📋 Detalhamento dos Chamados")
 st.dataframe(df_filtrado, use_container_width=True)
 
 # ================= DOWNLOAD =================
-st.download_button("📥 Exportar CSV",
-                   df_filtrado.to_csv(index=False),
-                   "chamados.csv",
-                   "text/csv")
+st.download_button(
+    "📥 Exportar CSV",
+    df_filtrado.to_csv(index=False),
+    "chamados.csv",
+    "text/csv"
+)
 
 # ================= INFO =================
 st.info("ℹ️ Todos os chamados estão em andamento.")
