@@ -128,7 +128,7 @@ dados = [
     ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", "-"],
 ]
 
-df = pd.DataFrame(dados, columns=["Local", "Telefone", "Motivo", "Status", "Chamado"])
+df = pd.DataFrame(dados, columns=["Local", "Produto", "Motivo", "Status", "Chamado"])
 
 # ================= FILTROS =================
 st.sidebar.header("🔎 Filtros")
