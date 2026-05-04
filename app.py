@@ -18,15 +18,9 @@ st.markdown("""
 /* ESCONDE SIDEBAR NO LOGIN */
 [data-testid="stSidebar"] {display: none;}
 
-/* CONTAINER LOGIN MENOR */
-.login-container {
-    max-width: 10px;
-    margin: 40px auto;
-}
-
 /* TÍTULO */
 .login-title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     color: white;
 }
@@ -35,23 +29,16 @@ st.markdown("""
 .login-subtitle {
     color: #cbd5e1;
     font-size: 13px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
-/* LABELS */
-label {
-    color: #e2e8f0 !important;
-    font-size: 13px;
-}
-
-/* INPUTS */
+/* INPUT */
 div[data-testid="stTextInput"] input {
     background-color: white;
     color: black;
-    border-radius: 6px;
-    padding: 6px;
     height: 32px;
     font-size: 13px;
+    border-radius: 6px;
     border: 1px solid #ccc;
 }
 
@@ -70,11 +57,6 @@ div.stButton > button:hover {
     opacity: 0.9;
 }
 
-/* AJUSTE GERAL */
-.block-container {
-    padding-top: 2rem;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -84,22 +66,21 @@ USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
 
 def login():
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([2,1,2])  # 🔥 centraliza e reduz largura
 
-    st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
-    st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
 
-    usuario = st.text_input("Usuário")
-    senha = st.text_input("Senha", type="password")
+        usuario = st.text_input("Usuário")
+        senha = st.text_input("Senha", type="password")
 
-    if st.button("Entrar", use_container_width=True):
-        if usuario == USUARIO and senha == SENHA:
-            st.session_state["logado"] = True
-            st.rerun()
-        else:
-            st.error("Usuário ou senha inválidos")
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button("Entrar", use_container_width=True):
+            if usuario == USUARIO and senha == SENHA:
+                st.session_state["logado"] = True
+                st.rerun()
+            else:
+                st.error("Usuário ou senha inválidos")
 
 # ================= CONTROLE =================
 if "logado" not in st.session_state:
@@ -120,8 +101,8 @@ st.markdown("Monitoramento de Telefonia e Conectividade")
 
 # ================= DADOS =================
 dados = [
-    ["Capivari (Casa da Advocacia)", "(19) 3879-1317", "Linha muda", "Em andamento"],
-    ["Capivari (Sala do Fórum)", "(19) 3492-2215", "Linha muda", "Em andamento"],
+    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento"],
+    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento"],
 
     ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "Linha muda", "Em andamento"],
     ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "Linha muda", "Em andamento"],
@@ -186,7 +167,6 @@ df_filtrado = df[
 
 # ================= KPIs =================
 col1, col2 = st.columns(2)
-
 col1.metric("📞 Total de Chamados", len(df_filtrado))
 col2.metric("🔧 Em andamento", len(df_filtrado))
 
