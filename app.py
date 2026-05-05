@@ -103,8 +103,8 @@ st.markdown("Monitoramento de Telefonia e Conectividade")
 
 # ================= DADOS =================
 dados = [
-    ["Capivari", "(19) 3492-2215", "Linha muda", "Em andamento", "87LZA0LL09"],
-    ["Capivari", "(19) 3879-1317", "Linha muda", "Em andamento", "87LZA0LL09"],
+    ["Capivari", "(19) 3492-2215", "Linha muda", "Reparo agendado 05/05", "87LZA0LL09"],
+    ["Capivari", "(19) 3879-1317", "Linha muda", "sem expectativa de atendimento, solicitado urgência", "87LZA0LL09"],
 
     ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "linha muda", "Em andamento", "8-7LZ41JGK"],
     ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "linha muda", "Em andamento", "8-7LZ41JGK"],
@@ -126,6 +126,10 @@ dados = [
 
     ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", ""],
     ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", "-"],
+    ["São Miguel Paulista (Casa da Advocacia)", "112037-7055", "escalonado pela vivo segue em tratativa", "reagendar dia 05/05", "8-7M2KB8NV"],
+    ["São Miguel Paulista (Casa da Advocacia)", "112037-2515", "sem expectativa de atendimento, solicitado urgência", "reagendar dia 05/05", "8-7M2KB8NV"]
+
+    
 ]
 
 df = pd.DataFrame(dados, columns=["Local", "Produto", "Motivo", "Status", "Chamado"])
