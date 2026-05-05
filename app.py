@@ -127,7 +127,7 @@ dados = [
     ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", ""],
     ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", "-"],
     ["São Miguel Paulista (Casa da Advocacia)", "112037-7055", "escalonado pela vivo segue em tratativa", "reagendar dia 05/05", "8-7M2KB8NV"],
-    ["São Miguel Paulista (Casa da Advocacia)", "112037-2515", "sem expectativa de atendimento, solicitado urgência", "reagendar dia 05/05", "8-7M2KB8NV"]
+    ["São Miguel Paulista (Casa da Advocacia)", "112037-2515", "sem expectativa de atendimento, solicitado urgência", "-", "-"]
 
     
 ]
