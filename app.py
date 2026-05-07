@@ -123,7 +123,7 @@ st.sidebar.title("📂 Menu")
 st.sidebar.markdown("### 📡 Navegação")
 
 st.sidebar.markdown(
-    "[📡 Abrir IP Dedicados](/IP_Dedicados)"
+    "[📡 Controle de IP Dedicados](/IP_Dedicados)"
 )
 
 # BOTÃO SAIR
