@@ -14,7 +14,7 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* REMOVE FUNDO */
+/* FUNDO */
 .stApp {
     background: none;
 }
