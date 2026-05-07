@@ -108,7 +108,7 @@ st.sidebar.title("📂 Menu")
 
 # BOTÃO IP DEDICADOS
 if st.sidebar.button("📡 IP Dedicados"):
-st.switch_page("1_IP_Dedicados")
+st.switch_page("1_IP_Dedicados"),
 
 # BOTÃO SAIR
 if st.sidebar.button("🚪 Sair"):
