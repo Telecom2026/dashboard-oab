@@ -19,13 +19,13 @@ st.markdown("""
     background: none;
 }
 
-/* TÍTULO */
+/* TÍTULO LOGIN */
 .login-title {
     font-size: 24px;
     font-weight: 700;
 }
 
-/* SUBTÍTULO */
+/* SUBTÍTULO LOGIN */
 .login-subtitle {
     font-size: 13px;
     margin-bottom: 10px;
@@ -105,18 +105,8 @@ if not st.session_state["logado"]:
     login()
     st.stop()
 
-# ================= MENU LATERAL =================
+# ================= SIDEBAR =================
 st.sidebar.title("📂 Menu")
-
-st.sidebar.page_link(
-    "app.py",
-    label="🏠 Dashboard Principal"
-)
-
-st.sidebar.page_link(
-    "pages/1_IP_Dedicados.py",
-    label="📡 IP Dedicados"
-)
 
 # BOTÃO SAIR
 if st.sidebar.button("🚪 Sair"):
