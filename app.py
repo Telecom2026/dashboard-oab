@@ -49,6 +49,17 @@ div.stButton > button {
     font-weight: 600;
 }
 
+/* LINK MENU */
+a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #1f77b4;
+}
+
+a:hover {
+    color: #0d5aa7;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -107,6 +118,13 @@ if not st.session_state["logado"]:
 
 # ================= SIDEBAR =================
 st.sidebar.title("📂 Menu")
+
+# LINK PARA NOVA PÁGINA
+st.sidebar.markdown("### 📡 Navegação")
+
+st.sidebar.markdown(
+    "[📡 Abrir IP Dedicados](/IP_Dedicados)"
+)
 
 # BOTÃO SAIR
 if st.sidebar.button("🚪 Sair"):
