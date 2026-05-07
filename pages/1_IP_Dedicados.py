@@ -1,14 +1,35 @@
 import streamlit as st
 import pandas as pd
 
+# ================= CONFIG =================
 st.set_page_config(
     page_title="IP Dedicados",
     layout="wide"
 )
 
-st.title("📡 IP Dedicados")
+# ================= VERIFICA LOGIN =================
+if "logado" not in st.session_state:
+    st.session_state["logado"] = False
 
-# Dados da tabela
+if not st.session_state["logado"]:
+    st.switch_page("app.py")
+
+# ================= SIDEBAR =================
+st.sidebar.title("📂 Menu")
+
+# VOLTAR DASHBOARD
+if st.sidebar.button("🏠 Dashboard Principal"):
+    st.switch_page("app.py")
+
+# BOTÃO SAIR
+if st.sidebar.button("🚪 Sair"):
+    st.session_state["logado"] = False
+    st.switch_page("app.py")
+
+# ================= TÍTULO =================
+st.title("📡 Controle de IP Dedicados")
+
+# ================= DADOS =================
 dados = {
     "NRC": ["0439387231"],
     "Produto": ["IP Dedicado"],
@@ -17,10 +38,9 @@ dados = {
     "Vencimento": ["27/05"]
 }
 
-# Criando DataFrame
 df = pd.DataFrame(dados)
 
-# Exibindo tabela
+# ================= TABELA =================
 st.dataframe(
     df,
     use_container_width=True,
