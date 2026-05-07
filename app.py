@@ -49,17 +49,6 @@ div.stButton > button {
     font-weight: 600;
 }
 
-/* LINK MENU */
-a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #1f77b4;
-}
-
-a:hover {
-    color: #0d5aa7;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -71,14 +60,12 @@ SENHA = os.getenv("SENHA")
 
 def login():
 
-    # LOGO
     top1, top2 = st.columns([6,1])
 
     with top2:
         if os.path.exists("logo.png"):
             st.image("logo.png", width=100)
 
-    # LOGIN CENTRAL
     col1, col2, col3 = st.columns([2,1,2])
 
     with col2:
@@ -119,12 +106,9 @@ if not st.session_state["logado"]:
 # ================= SIDEBAR =================
 st.sidebar.title("📂 Menu")
 
-# LINK PARA NOVA PÁGINA
-st.sidebar.markdown("### 📡 Navegação")
-
-st.sidebar.markdown(
-    "[📡 Controle de IP Dedicados](/IP_Dedicados)"
-)
+# BOTÃO IP DEDICADOS
+if st.sidebar.button("📡 IP Dedicados"):
+    st.switch_page("pages/1_IP_Dedicados.py")
 
 # BOTÃO SAIR
 if st.sidebar.button("🚪 Sair"):
