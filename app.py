@@ -4,7 +4,11 @@ import os
 from dotenv import load_dotenv
 
 # ================= CONFIG =================
-st.set_page_config(page_title="Dashboard de Chamados", layout="wide")
+st.set_page_config(
+    page_title="Dashboard de Chamados",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # ================= ESTILO =================
 st.markdown("""
@@ -14,9 +18,6 @@ st.markdown("""
 .stApp {
     background: none;
 }
-
-/* ESCONDE SIDEBAR NO LOGIN */
-[data-testid="stSidebar"] {display: none;}
 
 /* TÍTULO */
 .login-title {
@@ -53,13 +54,15 @@ div.stButton > button {
 
 # ================= LOGIN =================
 load_dotenv()
+
 USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
 
 def login():
 
-    # LOGO NO TOPO DIREITO
+    # LOGO
     top1, top2 = st.columns([6,1])
+
     with top2:
         if os.path.exists("logo.png"):
             st.image("logo.png", width=100)
@@ -68,8 +71,16 @@ def login():
     col1, col2, col3 = st.columns([2,1,2])
 
     with col2:
-        st.markdown('<div class="login-title">🔐 Acesso</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-subtitle">Entre para acessar o dashboard</div>', unsafe_allow_html=True)
+
+        st.markdown(
+            '<div class="login-title">🔐 Acesso</div>',
+            unsafe_allow_html=True
+        )
+
+        st.markdown(
+            '<div class="login-subtitle">Entre para acessar o dashboard</div>',
+            unsafe_allow_html=True
+        )
 
         st.markdown("**👤 Usuário**")
         usuario = st.text_input("", key="user")
@@ -78,13 +89,15 @@ def login():
         senha = st.text_input("", type="password", key="pass")
 
         if st.button("Entrar", use_container_width=True):
+
             if usuario == USUARIO and senha == SENHA:
                 st.session_state["logado"] = True
                 st.rerun()
+
             else:
                 st.error("Usuário ou senha inválidos")
 
-# ================= CONTROLE =================
+# ================= CONTROLE LOGIN =================
 if "logado" not in st.session_state:
     st.session_state["logado"] = False
 
@@ -92,47 +105,70 @@ if not st.session_state["logado"]:
     login()
     st.stop()
 
-# ================= SIDEBAR =================
+# ================= MENU LATERAL =================
+st.sidebar.title("📂 Menu")
+
+st.sidebar.page_link(
+    "app.py",
+    label="🏠 Dashboard Principal"
+)
+
+st.sidebar.page_link(
+    "pages/1_IP_Dedicados.py",
+    label="📡 IP Dedicados"
+)
+
+# BOTÃO SAIR
 if st.sidebar.button("🚪 Sair"):
     st.session_state["logado"] = False
     st.rerun()
 
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
-st.markdown("Monitoramento de Telefonia e Conectividade")
+
+st.markdown(
+    "Monitoramento de Telefonia e Conectividade"
+)
 
 # ================= DADOS =================
 dados = [
-    ["Capivari", "(19) 3492-2215", "Linha muda", "Reparo agendado 05/05", "87LZA0LL09"],
-    ["Capivari", "(19) 3879-1317", "Linha muda", "sem expectativa de atendimento, solicitado urgência", "87LZA0LL09"],
 
-    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-5369", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-7409", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-2381", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-1990", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Casa da Advocacia)", "11 5524-3966", "linha muda", "Em andamento", "8-7LZ41JGK"],
-    ["Santo Amaro (Vara do Trabalho)", "11 5521-0862", "linha muda", "Em andamento", "8-7LZ41JGK"],
+    ["Capivari", "(19) 3492-2215", "Linha muda",
+     "Reparo agendado 05/05", "87LZA0LL09"],
 
-    ["Jacareí (Casa da Advocacia)", "(12) 3951-1667", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
-    ["Jacareí (Casa da Advocacia)", "(12) 3951-3766", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
-    ["Jacareí (Casa da Advocacia)", "(12) 3961-7650", "Linha muda - Projeto Rifaina", "Em andamento", "8-7LWS83NK"],
+    ["Capivari", "(19) 3879-1317", "Linha muda",
+     "Sem expectativa de atendimento", "87LZA0LL09"],
 
-    ["São Bernardo do Campo (Sala do Fórum)", "(11) 4330-3855", "Não funciona", "Em andamento", "8-7LSGGATV"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5546-5596",
+     "Linha muda", "Em andamento", "8-7LZ41JGK"],
 
-    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4647-3977", "Linha muda", "Em andamento", "8-7LUEYA0k"],
-    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4640-1874", "Linha muda", "Em andamento", "8-7LUF8Q7T"],
+    ["Santo Amaro (Casa da Advocacia)", "11 5686-4032",
+     "Linha muda", "Em andamento", "8-7LZ41JGK"],
 
-    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", ""],
-    ["São José do Rio Preto (Sala do Fórum)", "-", "Instalação cancelada pela operadora", "reagendar dia 05/05", "-"],
-    ["São Miguel Paulista (Casa da Advocacia)", "112037-7055", "escalonado pela vivo segue em tratativa", "reagendar dia 05/05", "8-7M2KB8NV"],
-    ["São Miguel Paulista (Casa da Advocacia)", "112037-2515", "sem expectativa de atendimento, solicitado urgência", "-", "-"]
+    ["Jacareí (Casa da Advocacia)", "(12) 3951-1667",
+     "Linha muda - Projeto Rifaina", "Em andamento", "8-7LP8ZUHY"],
 
-    
+    ["São Bernardo do Campo (Sala do Fórum)", "(11) 4330-3855",
+     "Não funciona", "Em andamento", "8-7LSGGATV"],
+
+    ["Itaquaquecetuba (Casa da Advocacia)", "(11) 4647-3977",
+     "Linha muda", "Em andamento", "8-7LUEYA0K"],
+
+    ["São Miguel Paulista (Casa da Advocacia)", "112037-7055",
+     "Escalonado pela Vivo", "Em andamento", "8-7M2KB8NV"]
+
 ]
 
-df = pd.DataFrame(dados, columns=["Local", "Produto", "Motivo", "Status", "Chamado"])
+df = pd.DataFrame(
+    dados,
+    columns=[
+        "Local",
+        "Produto",
+        "Motivo",
+        "Status",
+        "Chamado"
+    ]
+)
 
 # ================= FILTROS =================
 st.sidebar.header("🔎 Filtros")
@@ -157,18 +193,33 @@ df_filtrado = df[
 # ================= KPIs =================
 col1, col2 = st.columns(2)
 
-col1.metric("📞 Total de Chamados", len(df_filtrado))
-col2.metric("🔧 Em andamento", len(df_filtrado))
+col1.metric(
+    "📞 Total de Chamados",
+    len(df_filtrado)
+)
+
+col2.metric(
+    "🔧 Em andamento",
+    len(df_filtrado)
+)
 
 st.divider()
 
 # ================= GRÁFICO =================
 st.subheader("📊 Chamados por Local")
-st.bar_chart(df_filtrado["Local"].value_counts())
+
+st.bar_chart(
+    df_filtrado["Local"].value_counts()
+)
 
 # ================= TABELA =================
 st.subheader("📋 Detalhamento dos Chamados")
-st.dataframe(df_filtrado, use_container_width=True)
+
+st.dataframe(
+    df_filtrado,
+    use_container_width=True,
+    hide_index=True
+)
 
 # ================= DOWNLOAD =================
 st.download_button(
@@ -179,4 +230,6 @@ st.download_button(
 )
 
 # ================= INFO =================
-st.info("ℹ️ Todos os chamados estão em andamento.")
+st.info(
+    "ℹ️ Todos os chamados estão em andamento."
+)
