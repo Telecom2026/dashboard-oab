@@ -15,13 +15,11 @@ st.set_page_config(
 )
 
 # ================= MENU =================
-st.sidebar.markdown("## 📂 Menu")
+st.sidebar.title("📂 Menu")
 
-st.sidebar.markdown(
-    "[🏠 Dashboard Principal](../)"
-)
-
-# ================= TÍTULO =================
+if st.sidebar.button("🏠 Dashboard Principal"):
+    st.switch_page("app.py")
+    # ================= TÍTULO =================
 st.title("📡 Controle de IP Dedicados")
 
 # ================= DADOS =================
