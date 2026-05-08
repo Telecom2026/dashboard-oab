@@ -6723,7 +6723,6 @@ st.title("📊 Dashboard Corporativo de Chamados")
 st.markdown(
     "Monitoramento de Telefonia e Conectividade"
 )
-
 # ================= DADOS =================
 dados = [
 
