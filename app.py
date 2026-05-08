@@ -136,8 +136,7 @@ if not st.session_state["logado"]:
     st.stop()
 
 # ================= BOTÃO SAIR =================
-# ================= BOTÃO SAIR =================
-col1, col2 = st.columns([16, 2])
+col1, col2 = st.columns([15, 2.2])
 
 with col2:
 
@@ -145,16 +144,22 @@ with col2:
     <style>
 
     div.stButton > button {
-        width: 100% !important;
+        width: 115px !important;
         height: 42px !important;
         border-radius: 10px !important;
         font-size: 15px !important;
         font-weight: 600 !important;
-        white-space: nowrap !important;
+
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 6px !important;
+
+        gap: 8px !important;
+
+        white-space: nowrap !important;
+        overflow: hidden !important;
+
+        padding: 0 14px !important;
     }
 
     </style>
