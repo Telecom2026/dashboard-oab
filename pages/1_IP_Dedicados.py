@@ -8,13 +8,11 @@ st.set_page_config(
 )
 
 # ================= SIDEBAR =================
-st.sidebar.title("📂 Menu")
+st.sidebar.markdown("## 📂 Menu")
 
-st.sidebar.page_link(
-    "app.py",
-    label="🏠 Dashboard Principal"
+st.sidebar.markdown(
+    "[🏠 Dashboard Principal](../)"
 )
-
 # ================= TÍTULO =================
 st.title("📡 Controle de IP Dedicados")
 
