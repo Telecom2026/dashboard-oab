@@ -142,11 +142,10 @@ if not st.session_state["logado"]:
     st.stop()
 
 # ================= SIDEBAR =================
-st.sidebar.title("📂 Menu")
+st.sidebar.markdown("## 📂 Menu")
 
-st.sidebar.page_link(
-    "pages/1_IP_Dedicados.py",
-    label="📡 IP Dedicados"
+st.sidebar.markdown(
+    "[📡 IP Dedicados](./1_IP_Dedicados)"
 )
 # ================= BOTÃO SAIR TOPO =================
 top1, top2 = st.columns([20,1])
