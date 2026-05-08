@@ -70,7 +70,7 @@ else:
     }
 
     div.stButton > button {
-        border-radius: 10px;
+        border-radius: 8px;
         font-weight: 600;
     }
 
@@ -84,12 +84,6 @@ USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
 
 def login():
-
-    # BOTÃO SAIR NO TOPO
-    top1, top2 = st.columns([14, 1])
-
-    with top2:
-        st.markdown("<br>", unsafe_allow_html=True)
 
     # CENTRALIZA LOGIN
     esquerda, centro, direita = st.columns([3,2,3])
@@ -141,39 +135,15 @@ if not st.session_state["logado"]:
     login()
     st.stop()
 
-# ================= SIDEBAR =================
-st.sidebar.title("📂 Menu")
-
-pagina = st.sidebar.radio(
-    "Navegação",
-    ["Dashboard", "IP Dedicados"]
-)
-
-if pagina == "IP Dedicados":
-    st.switch_page("pages/1_IP_Dedicados.py")
-    # ================= BOTÃO SAIR TOPO =================
-top1, top2 = st.columns([20,1])
+# ================= BOTÃO SAIR =================
+top1, top2 = st.columns([18,1])
 
 with top2:
 
-    st.markdown("""
-    <style>
-
-    div.stButton > button[kind="secondary"] {
-        height: 38px !important;
-        min-height: 38px !important;
-        padding: 0px 12px !important;
-        font-size: 14px !important;
-        border-radius: 8px !important;
-        white-space: nowrap !important;
-    }
-
-    </style>
-    """, unsafe_allow_html=True)
-
-    if st.button("🚪 Sair"):
+    if st.button("🚪 Sair", use_container_width=True):
         st.session_state["logado"] = False
         st.rerun()
+
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
 
@@ -222,8 +192,6 @@ df = pd.DataFrame(
 )
 
 # ================= FILTROS =================
-st.sidebar.divider()
-
 st.sidebar.header("🔎 Filtros")
 
 local = st.sidebar.multiselect(
