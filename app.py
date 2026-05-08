@@ -136,7 +136,8 @@ if not st.session_state["logado"]:
     st.stop()
 
 # ================= BOTÃO SAIR =================
-col1, col2, col3 = st.columns([20, 1, 0.5])
+# ================= BOTÃO SAIR =================
+col1, col2 = st.columns([16, 2])
 
 with col2:
 
@@ -144,13 +145,16 @@ with col2:
     <style>
 
     div.stButton > button {
-        height: 40px !important;
         width: 100% !important;
-        border-radius: 8px !important;
-        font-size: 14px !important;
+        height: 42px !important;
+        border-radius: 10px !important;
+        font-size: 15px !important;
         font-weight: 600 !important;
         white-space: nowrap !important;
-        padding: 0px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
     }
 
     </style>
@@ -159,7 +163,7 @@ with col2:
     if st.button("🚪 Sair"):
         st.session_state["logado"] = False
         st.rerun()
-# ================= HEADER =================
+        # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
 
 st.markdown(
