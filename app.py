@@ -142,12 +142,16 @@ if not st.session_state["logado"]:
     st.stop()
 
 # ================= SIDEBAR =================
-st.sidebar.markdown("## 📂 Menu")
+st.sidebar.title("📂 Menu")
 
-st.sidebar.markdown(
-    "[📡 IP Dedicados](./1_IP_Dedicados)"
+pagina = st.sidebar.radio(
+    "Navegação",
+    ["Dashboard", "IP Dedicados"]
 )
-# ================= BOTÃO SAIR TOPO =================
+
+if pagina == "IP Dedicados":
+    st.switch_page("pages/1_IP_Dedicados.py")
+    # ================= BOTÃO SAIR TOPO =================
 top1, top2 = st.columns([20,1])
 
 with top2:
