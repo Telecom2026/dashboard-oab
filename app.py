@@ -5,52 +5,77 @@ from dotenv import load_dotenv
 
 # ================= CONFIG =================
 st.set_page_config(
-    page_title="Dashboard de Chamados",
+    page_title="Chamados",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ================= ESTILO =================
-st.markdown("""
-<style>
+# ================= SESSION =================
+if "logado" not in st.session_state:
+    st.session_state["logado"] = False
 
-/* FUNDO */
-.stApp {
-    background: none;
-}
+# ================= CSS =================
+if not st.session_state["logado"]:
 
-/* TÍTULO LOGIN */
-.login-title {
-    font-size: 24px;
-    font-weight: 700;
-}
+    # ESCONDE SIDEBAR NO LOGIN
+    st.markdown("""
+    <style>
 
-/* SUBTÍTULO LOGIN */
-.login-subtitle {
-    font-size: 13px;
-    margin-bottom: 10px;
-}
+    section[data-testid="stSidebar"] {
+        display: none;
+    }
 
-/* INPUT */
-div[data-testid="stTextInput"] input {
-    background-color: white;
-    color: black;
-    height: 32px;
-    font-size: 13px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
+    .stApp {
+        background-color: #f5f7fb;
+    }
 
-/* BOTÃO */
-div.stButton > button {
-    height: 34px;
-    font-size: 14px;
-    border-radius: 6px;
-    font-weight: 600;
-}
+    .login-title {
+        font-size: 34px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 5px;
+    }
 
-</style>
-""", unsafe_allow_html=True)
+    .login-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    div[data-testid="stTextInput"] input {
+        height: 45px;
+        border-radius: 10px;
+        border: 1px solid #dcdcdc;
+        background-color: white;
+    }
+
+    div.stButton > button {
+        height: 45px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+else:
+
+    # CSS DASHBOARD
+    st.markdown("""
+    <style>
+
+    .stApp {
+        background-color: #f5f7fb;
+    }
+
+    div.stButton > button {
+        border-radius: 10px;
+        font-weight: 600;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
 # ================= LOGIN =================
 load_dotenv()
@@ -60,15 +85,16 @@ SENHA = os.getenv("SENHA")
 
 def login():
 
-    top1, top2 = st.columns([6,1])
+    # BOTÃO SAIR NO TOPO
+    top1, top2 = st.columns([14, 1])
 
     with top2:
-        if os.path.exists("logo.png"):
-            st.image("logo.png", width=100)
+        st.markdown("<br>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([2,1,2])
+    # CENTRALIZA LOGIN
+    esquerda, centro, direita = st.columns([3,2,3])
 
-    with col2:
+    with centro:
 
         st.markdown(
             '<div class="login-title">🔐 Acesso</div>',
@@ -80,15 +106,30 @@ def login():
             unsafe_allow_html=True
         )
 
-        st.markdown("**👤 Usuário**")
-        usuario = st.text_input("", key="user")
+        st.markdown("### 👤 Usuário")
 
-        st.markdown("**🔒 Senha**")
-        senha = st.text_input("", type="password", key="pass")
+        usuario = st.text_input(
+            "",
+            key="usuario"
+        )
 
-        if st.button("Entrar", use_container_width=True):
+        st.markdown("### 🔒 Senha")
+
+        senha = st.text_input(
+            "",
+            type="password",
+            key="senha"
+        )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        if st.button(
+            "Entrar",
+            use_container_width=True
+        ):
 
             if usuario == USUARIO and senha == SENHA:
+
                 st.session_state["logado"] = True
                 st.rerun()
 
@@ -96,9 +137,6 @@ def login():
                 st.error("Usuário ou senha inválidos")
 
 # ================= CONTROLE LOGIN =================
-if "logado" not in st.session_state:
-    st.session_state["logado"] = False
-
 if not st.session_state["logado"]:
     login()
     st.stop()
@@ -106,15 +144,33 @@ if not st.session_state["logado"]:
 # ================= SIDEBAR =================
 st.sidebar.title("📂 Menu")
 
-# BOTÃO IP DEDICADOS
-if st.sidebar.button("📡 IP Dedicados"):
-    st.switch_page("pages/1_IP_Dedicados.py")
+st.sidebar.page_link(
+    "pages/1_IP_Dedicados.py",
+    label="📡 IP Dedicados"
+)
+# ================= BOTÃO SAIR TOPO =================
+top1, top2 = st.columns([20,1])
 
-# BOTÃO SAIR
-if st.sidebar.button("🚪 Sair"):
-    st.session_state["logado"] = False
-    st.rerun()
-    
+with top2:
+
+    st.markdown("""
+    <style>
+
+    div.stButton > button[kind="secondary"] {
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0px 12px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    if st.button("🚪 Sair"):
+        st.session_state["logado"] = False
+        st.rerun()
 # ================= HEADER =================
 st.title("📊 Dashboard Corporativo de Chamados")
 
@@ -163,6 +219,8 @@ df = pd.DataFrame(
 )
 
 # ================= FILTROS =================
+st.sidebar.divider()
+
 st.sidebar.header("🔎 Filtros")
 
 local = st.sidebar.multiselect(
@@ -182,7 +240,7 @@ df_filtrado = df[
     (df["Chamado"].isin(chamado))
 ]
 
-# ================= KPIs =================
+# ================= KPIS =================
 col1, col2 = st.columns(2)
 
 col1.metric(
