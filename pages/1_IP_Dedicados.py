@@ -1,18 +1,26 @@
 import streamlit as st
 import pandas as pd
 
+# ================= VALIDA LOGIN =================
+if "logado" not in st.session_state:
+    st.session_state["logado"] = False
+
+if not st.session_state["logado"]:
+    st.switch_page("app.py")
+
 # ================= CONFIG =================
 st.set_page_config(
     page_title="IP Dedicados",
     layout="wide"
 )
 
-# ================= SIDEBAR =================
+# ================= MENU =================
 st.sidebar.markdown("## 📂 Menu")
 
 st.sidebar.markdown(
     "[🏠 Dashboard Principal](../)"
 )
+
 # ================= TÍTULO =================
 st.title("📡 Controle de IP Dedicados")
 
