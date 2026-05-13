@@ -176,12 +176,6 @@ st.markdown(
 # ================= DADOS =================
 dados = [
 
-    ["23/01/2026", "Capivari (Casa da Advocacia)", "(19) 3492-2215",
-     "Linha muda", "Solicitado reabertura dia 07/05", "87LZA0LL09"],
-
-    ["23/01/2026", "Capivari (Casa da Advocacia)", "(19) 3879-1317",
-     "Linha muda", "Sem expectativa de atendimento, solicitado urgência", "87LZA0LL09"],
-
     ["01/04/2026", "Santo Amaro (Casa da Advocacia)", "11 5546-5596",
      "Linha muda", "Em andamento", "8-7LZ41JGK"],
 
@@ -233,7 +227,7 @@ dados = [
      "Sem expectativa de atendimento", "-", "-"],
 
     ["23/02/2026", "Mauá (Sala do Fórum)", "114555-1433",
-     "Linha muda - Projeto Rifaina", "Em andamento", "8-7L6JZMA5"],
+     "Linha muda - Projeto Rifaina", "Tecnico foi ao local, porém falta espaço no quadro. Solicitou a transferência para o quadro do 1 andar", "8-7L6JZMA5"],
 
     ["22/04/2026", "Araraquara (TED e Casa da Advocacia)", "1633314858",
      "Furto de cabos", "Em andamento", "87M1XERPM e 87M1W83RI"],
